@@ -1,0 +1,3 @@
+I'm using this folder to try and debug the piecewise linear minimization I am doing. Plotting it vs the continuum energy to see if I get similar results.
+
+What I find from this is that the integration broken up into different pieces (as written in the piecewise docs) gives a more accurate result than trying to integrate the piecewise function with a standard numerical integration technique. I think that this testing indicates that the energy function in funcs/energyfunc.c is correct.
