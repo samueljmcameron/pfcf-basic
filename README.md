@@ -3,3 +3,5 @@ This project, started in mid July 2018, models collagen fibrils as cylinders wit
 We require the fibrils to have an axial density modulation (the collagen fibril ``d-band''), and a local double twist director field. The density modulation is constant with $r$ and $\phi$, but is periodic in $z$ where ($r$,$\phi$,$z$) are the usual cylindrical polar coordinates.
 
 We name this repository  ``pfcf-basic'' because there are other possibilities that can be added to our model that we have in mind, which we hope to include at a later date.
+
+IMPORTANT: All generated data files and plots (i.e. results) are not included in this repository. They are saved locally and synced by hand into my dropbox account (in the directory Dropbox/masters/pfcf-basic/gradient-descent/experiments/ ).
