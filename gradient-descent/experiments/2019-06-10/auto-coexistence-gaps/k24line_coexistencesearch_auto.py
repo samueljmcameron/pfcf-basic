@@ -105,20 +105,23 @@ if __name__ == "__main__":
     scan['K_{33}'] = str(K33)
 
 
+    E_tol = 1e-8
+    R_tol = 1e-3
+
     
-    Rf1 = 0.43597
-    etaf1 = 6.31936
-    deltaf1 = 0.80615
+    Rf1 = 0.47
+    etaf1 = 6.3206
+    deltaf1 = 0.8069
 
-    Rb1 = 0.55985
-    etab1 = 6.32529
-    deltab1 = 0.80884
+    Rb1 = 0.515
+    etab1 = 6.3234
+    deltab1 = 0.80816
 
-    gamma0 = 0.0837707
+    gamma0 = 0.08356881
 
-    gamma2 = 0.083776
+    gamma2 = 0.08356883
 
-    k24s = np.linspace(0.4,0.426,num=27,endpoint=True)[::-1]
+    k24s = np.array([0.4205],float)
     
     for k24 in k24s:
 
@@ -158,7 +161,7 @@ if __name__ == "__main__":
 
             gamma2 = gamma0 + 1.5*dg
 
-        while (np.abs(Rf0-Rb0)<1e-3):
+        while (np.abs(Rf0-Rb0)<R_tol):
 
             gamma0 += dg
 
@@ -172,7 +175,7 @@ if __name__ == "__main__":
 
         print("finished loop 1")
 
-        if np.abs(Ef0-Eb0)<1e-7:
+        if np.abs(Ef0-Eb0)<E_tol:
 
             print("successfully found coexistence!")
             continue
@@ -210,7 +213,7 @@ if __name__ == "__main__":
                                                   fwd_ic,bwd_ic)
             
 
-        while (np.abs(Rf2-Rb2)<1e-3):
+        while (np.abs(Rf2-Rb2)<R_tol):
 
             gamma2 -= dg
 
@@ -223,7 +226,7 @@ if __name__ == "__main__":
 
         print("finished loop 2")
 
-        if np.abs(Ef2-Eb2)<1e-7:
+        if np.abs(Ef2-Eb2)<E_tol:
 
             print("successfully found coexistence!")
             continue
@@ -241,7 +244,7 @@ if __name__ == "__main__":
 
 
 
-        while(np.abs(Ef1-Eb1)>1e-7):
+        while(np.abs(Ef1-Eb1)>E_tol):
 
             gamma1 = 0.5*(gamma0+gamma2)
 
