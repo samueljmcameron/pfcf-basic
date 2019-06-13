@@ -1,0 +1,14 @@
+K_{33}		30.
+k_{24} 		0.1
+\Lambda 	1000.0
+\omega		25.0
+\gamma_s 	0.04
+Rguess		2.0
+etaguess	6.36
+deltaguess	0.814
+Rupper		2.2
+Rlower		1.8
+etaupper	6.4
+etalower	6.35
+deltaupper	0.816
+deltalower	0.81
