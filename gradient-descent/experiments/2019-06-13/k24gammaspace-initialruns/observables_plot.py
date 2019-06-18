@@ -128,6 +128,7 @@ scan = {}
 scan['\\Lambda']=sys.argv[1]
 scan['\\omega']=sys.argv[2]
 scan_dir=sys.argv[3]
+datfile = sys.argv[4]
 
 
 
@@ -138,7 +139,7 @@ for om,k24 in enumerate(k24s):
     scan['k_{24}']=str(k24)
     
     obs = ObservableData(["\\gamma_s"],scan=scan,loadsuf=loadsuf,savesuf=savesuf,
-                         scan_dir=scan_dir)
+                         scan_dir=scan_dir,datfile=datfile)
     print(k24)
     for observable in observable_list:
 

@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     colors = sns.color_palette()
 
-    colors = [colors[1],colors[2]] 
+    colors = [colors[0],colors[1]] 
 
     scan = {}
     scan['\\Lambda'] = str(Lambda)
@@ -74,13 +74,13 @@ if __name__ == "__main__":
             
             if observable == "psi(R)":
 
-                linearlab = r"$\psi_{\ell}^*(R)$"
-                frustlab = r"$\psi_{f}^*(R)$"
+                linearlab = r"$\psi_{L}^*(R)$"
+                frustlab = r"$\psi_{F}^*(R)$"
 
             else:
 
-                linearlab = rf"${ylabel}_{{\ell}}^*$"
-                frustlab = rf"${ylabel}_f^*$"
+                linearlab = rf"${ylabel}_L^*$"
+                frustlab = rf"${ylabel}_F^*$"
 
             ax.plot(ts,obsfwd.data[:,i+1],'^',color=colors[0],
                     label=linearlab,markersize=3)

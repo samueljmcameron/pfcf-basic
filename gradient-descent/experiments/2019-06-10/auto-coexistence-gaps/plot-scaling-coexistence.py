@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     colors = sns.color_palette()
 
-    colors = [colors[1],colors[2]] 
+    colors = [colors[2],colors[3]] 
 
     scan = {}
     scan['\\Lambda'] = str(Lambda)
