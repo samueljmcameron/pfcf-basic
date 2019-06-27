@@ -125,10 +125,10 @@ for observable in observable_list:
 
 
 scan = {}
-scan['\\Lambda']=sys.argv[1]
-scan['\\omega']=sys.argv[2]
-scan_dir=sys.argv[3]
-datfile = sys.argv[4]
+scan['\\Lambda']='600.0'
+scan['\\omega']='20.0'
+scan_dir=""
+datfile = 'data/inputfwd.dat'
 
 
 

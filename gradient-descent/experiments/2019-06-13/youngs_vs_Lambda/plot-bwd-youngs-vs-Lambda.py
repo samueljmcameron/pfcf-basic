@@ -18,18 +18,18 @@ if __name__=="__main__":
     height = width*1.25
 
 
-    k24 = '1.0'
-    gamma = '0.12'
-    omega = sys.argv[1]
+    k24 = '0.5'
+    gamma = '0.04'
+    omega = '20.0'
 
     scan = {}
     scan['\\gamma_s']=gamma
     scan['k_{24}']=k24
     scan['\\omega']=omega
 
-    Larray = np.linspace(0,1000,num=101,endpoint=True)
-    Larray[0] = 1.0
+    Larray = np.logspace(-3,3,num=501,endpoint=True)
 
+    datfile = "data/inputbwd.dat"
 
     youngs = np.copy(Larray)*0
     breaks = np.copy(Larray)*0
@@ -63,17 +63,17 @@ if __name__=="__main__":
         scan['\\Lambda']=Lambda
 
 
-        obsfwd = ObservableData(["strain"],scan_dir='scanforward',scan=scan,loadsuf=loadsuf,
-                                savesuf=savesuf)
-        #obsfwd.sort_observables()
-        #obsfwd.remove_duplicates()
+        obsbwd = ObservableData(["strain"],scan_dir='scanbackward',scan=scan,loadsuf=loadsuf,
+                                savesuf=savesuf,datfile=datfile)
+        #obsbwd.sort_observables()
+        #obsbwd.remove_duplicates()
 
-        if len(obsfwd.data) == 6 or obsfwd.E()[0] > 1e299:
+        if len(obsbwd.data) == 6 or obsbwd.E()[0] > 1e299:
             print("bad calculation at Lambda = ",Lambda)
             Larray[js] = np.nan
             continue
-        strains = obsfwd.data[:,0]
-        stresses = np.gradient(obsfwd.E(),strains)
+        strains = obsbwd.data[:,0]
+        stresses = np.gradient(obsbwd.E(),strains)
         stresses[0] = 0.0
         youngs[js] = (stresses[1]-stresses[0])/(strains[1]-strains[0])
 
@@ -90,7 +90,7 @@ if __name__=="__main__":
     ax["breaks"].set_xscale('log')
 
     fig.subplots_adjust(left=0.2,right=0.8,bottom=0.1,top=0.95,hspace=0.05)
-    fig.savefig(obsfwd.observable_sname("youngs-vs-Lambda",plot_format="pdf"))
+    fig.savefig(obsbwd.observable_sname("youngs-vs-Lambda-bwd",plot_format="pdf"))
 
     plt.show()
 
