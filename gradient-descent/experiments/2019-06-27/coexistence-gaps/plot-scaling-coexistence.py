@@ -8,6 +8,10 @@ sys.path.append('../../scripts/')
 from observabledata import ObservableData
 import seaborn as sns
 
+def y_scaling(xs,alpha,yint):
+
+    return yint*xs**alpha
+
 if __name__ == "__main__":
 
     Lambda = 600.0
@@ -21,7 +25,7 @@ if __name__ == "__main__":
 
     colors = sns.color_palette()
 
-    colors = [colors[0],colors[1]] 
+    colors = [colors[2],colors[3]] 
 
     scan = {}
     scan['\\Lambda'] = str(Lambda)
@@ -37,12 +41,15 @@ if __name__ == "__main__":
     obsbwd = ObservableData(name="bw_coexist",loadfilepath="results",scan=scan,
                             loadsuf=loadsuf,savesuf=savesuf)
 
-    observables_list = ["gamma","E","R","eta","delta","psi(R)"]
+    observables_list = ["E","R","eta","delta","psi(R)"]
 
     k24s = obsfwd.data[:,0]
-    gammas = obsfwd.data[:,1]
 
     ts = (k24s-k24s[0])/k24s[0]
+
+    tcs = np.linspace(0.002,0.1,num=100,endpoint=True)
+
+    yints = np.array([0,2,0.8,0.8,0.8],float)
 
     # these two lines are just to normalize delta, as in the code its still delta_0 = sqrt(2/3)
     obsfwd.data[:,5] = obsfwd.data[:,5]/np.sqrt(2/3)
@@ -57,7 +64,7 @@ if __name__ == "__main__":
         print(observable)
 
 
-        if i > 2:
+        if i > 1:
 
             ylabel = f"\\{observable}"
 
@@ -65,37 +72,24 @@ if __name__ == "__main__":
 
             ylabel = observable
 
-        if i == 0:
+        ax.plot(ts,np.abs(obsbwd.data[:,i+2]-obsfwd.data[:,i+2]),
+                '^',color=colors[0],markersize=3)
 
-            ax.plot(ts,gammas,'.',color='k')
-            ylabel="\\gamma"
-
-        else:
+        if observable != "E":
             
-            if observable == "psi(R)":
+            ax.plot(tcs,y_scaling(tcs,0.5,yints[i]),'--',color='k',lw=1,
+                    label=r'$x^{\frac{1}{2}}$')
+        
+        ax.set_yscale('log')
+        ax.set_xscale('log')
 
-                linearlab = r"$\psi_{L}^*(R)$"
-                frustlab = r"$\psi_{F}^*(R)$"
-
-            else:
-
-                linearlab = rf"${ylabel}_L^*$"
-                frustlab = rf"${ylabel}_F^*$"
-
-            ax.plot(ts,obsfwd.data[:,i+1],'^',color=colors[0],
-                    label=linearlab,markersize=3)
-            ax.plot(ts,obsbwd.data[:,i+1],'s',color=colors[1],
-                    label=frustlab,markersize=3)
-
-        if observable == "R":
-            ax.set_yscale('log')
-
-        ax.set_ylabel(rf"${ylabel}$",fontsize=10)
+        ax.set_ylabel(rf"$\Delta {ylabel}$",fontsize=10)
         ax.set_xlabel(r"$t$",fontsize=10)
+
         ax.legend(frameon=False,fontsize=10)
         fig.subplots_adjust(left=0.2,bottom=0.2)
         
-        fig.savefig(obsfwd.observable_sname(f"{observable}_GAP"))
+        fig.savefig(obsfwd.observable_sname(f"{observable}_SCALING"))
 
 
 

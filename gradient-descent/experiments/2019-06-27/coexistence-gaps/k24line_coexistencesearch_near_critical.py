@@ -12,31 +12,31 @@ def single_E_calc(gamma,scan,loadsuf,savesuf,scan_dir):
 
     if scan_dir == "scanforward":
 
-        Rguess0 = 0.35
-        Rupper0 = 0.4
-        Rlower0 = 0.3
+        Rguess0 = 0.134
+        Rupper0 = 0.15
+        Rlower0 = 0.12
 
-        etaguess0 = 6.3
+        etaguess0 = 6.295
         etalower0 = 6.29
-        etaupper0 = 6.33
+        etaupper0 = 6.305
 
-        deltaguess0 = 0.8
-        deltalower0 = 0.79
+        deltaguess0 = 0.808
+        deltalower0 = 0.807
         deltaupper0 = 0.81
 
     else:
 
-        Rguess0 = 0.51
-        Rupper0 = 0.52
-        Rlower0 = 0.5
+        Rguess0 = 0.32
+        Rupper0 = 0.35
+        Rlower0 = 0.31
 
-        etaguess0 = 6.33
-        etalower0 = 6.31
-        etaupper0 = 6.36
+        etaguess0 = 6.3
+        etalower0 = 6.294
+        etaupper0 = 6.31
 
-        deltaguess0 = 0.81
-        deltalower0 = 0.807
-        deltaupper0 = 0.814
+        deltaguess0 = 0.8135
+        deltalower0 = 0.813
+        deltaupper0 = 0.816
 
 
     scan['Rguess'] = str(Rguess0)
@@ -99,7 +99,7 @@ if __name__ == "__main__":
 
     gamma2 = float(sys.argv[3])
 
-    dg = 0.000005
+    dg = 0.00005
 
 
     Ef0,Rf0 = single_E_calc(gamma0,scan,loadsuf,savesuf,"scanforward")
