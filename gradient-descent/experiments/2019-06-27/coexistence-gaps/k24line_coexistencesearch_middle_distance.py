@@ -6,29 +6,73 @@ sys.path.append('../../scripts/')
 from singlerun import SingleRun
 from readparams import ReadParams
 
+Etol = 1e-8
+
+def upper_Rguess(t):
+
+    x0 = 0
+    y0 = 0.269
+    x1 = 1.135
+    y1 = 0.644
+
+    return (y1-y0)/(x1-x0)*t+y0
+
+def lower_Rguess(t):
+
+    x0 = 0
+    y0 = 0.119
+    x1 = 1.135
+    y1 = 0.029
+
+    return (y1-y0)/(x1-x0)*t+y0
+
+def func_gamma(t):
+
+    x0 = 0.0
+    y0 = 0.0357
+    x1 = 1.135
+    y1 = 0.0459
+
+    return (y1-y0)/(x1-x0)*t+y0
+
+
 def single_E_calc(gamma,scan,loadsuf,savesuf,scan_dir):
 
     scan['\\gamma_s'] = str(gamma)
 
+    k240 = 0.33
+
+    k24 = float(scan['k_{24}'])
+
+    t = (k24-k240)/k240
+
     if scan_dir == "scanforward":
 
-        Rguess0 = 0.045
-        Rupper0 = 0.6
-        Rlower0 = 0.4
+        #Rguess0 = 0.045
+        #Rupper0 = 0.6
+        #Rlower0 = 0.4
 
-        etaguess0 = 6.3
+        Rguess0 = lower_Rguess(t)
+        Rupper0 = Rguess0*1.1
+        Rlower0 = Rguess0*0.9
+
+        etaguess0 = 6.295
         etalower0 = 6.29
-        etaupper0 = 6.33
+        etaupper0 = 6.3
 
         deltaguess0 = 0.8
-        deltalower0 = 0.79
-        deltaupper0 = 0.81
+        deltalower0 = 0.799
+        deltaupper0 = 0.805
 
     else:
 
-        Rguess0 = 0.7
-        Rupper0 = 0.9
-        Rlower0 = 0.6
+        #Rguess0 = 0.7
+        #Rupper0 = 0.9
+        #Rlower0 = 0.6
+
+        Rguess0 = upper_Rguess(t)
+        Rupper0 = Rguess0*1.1
+        Rlower0 = Rguess0*0.9
 
         etaguess0 = 6.34
         etalower0 = 6.32
@@ -95,9 +139,13 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    gamma0 = float(sys.argv[2])
+    k240=0.33
+    
+    t = (k24-k240)/k240
 
-    gamma2 = float(sys.argv[3])
+    gamma0 = func_gamma(t)-0.0001#float(sys.argv[2])
+
+    gamma2 = func_gamma(t)#float(sys.argv[3])
 
     dg = 0.0002
 
@@ -117,7 +165,7 @@ if __name__ == "__main__":
         
     print("finished loop 1")
 
-    if np.abs(Ef0-Eb0)<1e-7:
+    if np.abs(Ef0-Eb0)<Etol:
 
         print("successfully found coexistence!")
         exit()
@@ -146,7 +194,7 @@ if __name__ == "__main__":
 
     print("finished loop 2")
 
-    if np.abs(Ef2-Eb2)<1e-7:
+    if np.abs(Ef2-Eb2)<Etol:
 
         print("successfully found coexistence!")
         exit()
@@ -162,7 +210,7 @@ if __name__ == "__main__":
     Ef1 = 1
     Eb1 = 1000
 
-    while(np.abs(Ef1-Eb1)>1e-7):
+    while(np.abs(Ef1-Eb1)>Etol):
 
         gamma1 = 0.5*(gamma0+gamma2)
 

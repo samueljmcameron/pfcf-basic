@@ -8,6 +8,33 @@ sys.path.append('../../scripts/')
 from observabledata import ObservableData
 import seaborn as sns
 
+def func_f(x):
+    
+    x0 = 0
+    y0 = 0.269
+    x1 = 1.135
+    y1 = 0.644
+
+    return (y1-y0)/(x1-x0)*x+y0
+
+def func_l(x):
+
+    x0 = 0
+    y0 = 0.119
+    x1 = 1.135
+    y1 = 0.029
+
+    return (y1-y0)/(x1-x0)*x+y0
+
+def func_g(x):
+
+    x0 = 0.0
+    y0 = 0.0357
+    x1 = 1.135
+    y1 = 0.0459
+
+    return (y1-y0)/(x1-x0)*x+y0
+
 if __name__ == "__main__":
 
     Lambda = 600.0
@@ -44,6 +71,9 @@ if __name__ == "__main__":
 
     ts = (k24s-k24s[0])/k24s[0]
 
+    xs = np.linspace(0,1.2,num=100,endpoint=True)
+
+
     # these two lines are just to normalize delta, as in the code its still delta_0 = sqrt(2/3)
     obsfwd.data[:,5] = obsfwd.data[:,5]/np.sqrt(2/3)
     obsbwd.data[:,5] = obsbwd.data[:,5]/np.sqrt(2/3)
@@ -68,6 +98,7 @@ if __name__ == "__main__":
         if i == 0:
 
             ax.plot(ts,gammas,'.',color='k')
+            #ax.plot(xs,func_g(xs),'-')
             ylabel="\\gamma"
 
         else:
@@ -88,7 +119,10 @@ if __name__ == "__main__":
                     label=frustlab,markersize=3)
 
         if observable == "R":
+
             ax.set_yscale('log')
+            #ax.plot(xs,func_l(xs),'-')
+            #ax.plot(xs,func_f(xs),'-')
 
         ax.set_ylabel(rf"${ylabel}$",fontsize=10)
         ax.set_xlabel(r"$t$",fontsize=10)
@@ -97,7 +131,3 @@ if __name__ == "__main__":
         
         fig.savefig(obsfwd.observable_sname(f"{observable}_GAP"))
 
-
-
-
-    

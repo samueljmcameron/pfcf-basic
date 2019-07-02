@@ -9,9 +9,9 @@ from observabledata import ObservableData
 import seaborn as sns
 from scipy.optimize import curve_fit
 
-def func(x,a):
+def func(x,a,b):
 
-    return 0.5*np.log(x-a)
+    return 0.5*np.log(x-a)+b
 
 if __name__ == "__main__":
 
@@ -44,10 +44,10 @@ if __name__ == "__main__":
 
     observables_list = ["E","R","eta","delta","psi(R)"]
 
-    k24s = obsfwd.data[:5,0]
+    k24s = obsfwd.data[:,0]
 
     
-    delR = (obsbwd.data[:5,3]-obsfwd.data[:5,3])
+    delR = (obsbwd.data[:,3]-obsfwd.data[:,3])
 
     ys = np.log(delR)
 
@@ -65,7 +65,8 @@ if __name__ == "__main__":
     ax.set_xlabel(r"$k_{24}$",fontsize=10)
 
     ax.plot(k24s,delR,'.')
-    ax.plot(k24s,np.exp(func(k24s,popt[0])),'-')
+    ax.plot(k24s,np.exp(func(k24s,popt[0],popt[1])),'-')
+    ax.plot(k24s,np.exp(func(k24s,0.3,-0.5)),'-')
 
     ax.legend(frameon=False,fontsize=10)
     fig.subplots_adjust(left=0.2,bottom=0.2)
