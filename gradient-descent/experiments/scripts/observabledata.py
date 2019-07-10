@@ -33,8 +33,9 @@ class ObservableData(ReadParams):
             self.data = np.loadtxt(self.observables_fname())
             self.file_exists = True
         else:
-            print("could not find a file by the name of ",
-                  self.observables_fname())
+            if self.name != "dummy":
+                print("could not find a file by the name of ",
+                      self.observables_fname())
             self.file_exists = False
 
         return

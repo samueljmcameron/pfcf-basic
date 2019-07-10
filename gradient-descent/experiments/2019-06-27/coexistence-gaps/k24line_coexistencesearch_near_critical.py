@@ -6,37 +6,39 @@ sys.path.append('../../scripts/')
 from singlerun import SingleRun
 from readparams import ReadParams
 
+Etol = 1e-8
+
 def single_E_calc(gamma,scan,loadsuf,savesuf,scan_dir):
 
     scan['\\gamma_s'] = str(gamma)
 
     if scan_dir == "scanforward":
 
-        Rguess0 = 0.19
-        Rupper0 = 0.2
-        Rlower0 = 0.18
+        Rguess0 = 0.187
+        Rupper0 = 0.195
+        Rlower0 = 0.185
 
-        etaguess0 = 6.293
+        etaguess0 = 6.292
         etalower0 = 6.291
-        etaupper0 = 6.295
+        etaupper0 = 6.294
 
-        deltaguess0 = 0.81
-        deltalower0 = 0.809
-        deltaupper0 = 0.812
+        deltaguess0 = 0.811
+        deltalower0 = 0.8109
+        deltaupper0 = 0.8117
 
     else:
 
-        Rguess0 = 0.215
-        Rupper0 = 0.22
-        Rlower0 = 0.21
+        Rguess0 = 0.22
+        Rupper0 = 0.225
+        Rlower0 = 0.212
 
-        etaguess0 = 6.296
-        etalower0 = 6.294
-        etaupper0 = 6.3
+        etaguess0 = 6.294
+        etalower0 = 6.293
+        etaupper0 = 6.295
 
-        deltaguess0 = 0.813
-        deltalower0 = 0.812
-        deltaupper0 = 0.814
+        deltaguess0 = 0.8118
+        deltalower0 = 0.811
+        deltaupper0 = 0.813
 
 
     scan['Rguess'] = str(Rguess0)
@@ -117,7 +119,7 @@ if __name__ == "__main__":
         
     print("finished loop 1")
 
-    if np.abs(Ef0-Eb0)<1e-7:
+    if np.abs(Ef0-Eb0)<Etol:
 
         print("successfully found coexistence!")
         exit()
@@ -146,7 +148,7 @@ if __name__ == "__main__":
 
     print("finished loop 2")
 
-    if np.abs(Ef2-Eb2)<1e-7:
+    if np.abs(Ef2-Eb2)<Etol:
 
         print("successfully found coexistence!")
         exit()
@@ -162,7 +164,7 @@ if __name__ == "__main__":
     Ef1 = 1
     Eb1 = 1000
 
-    while(np.abs(Ef1-Eb1)>1e-7):
+    while(np.abs(Ef1-Eb1)>Etol):
 
         gamma1 = 0.5*(gamma0+gamma2)
 
