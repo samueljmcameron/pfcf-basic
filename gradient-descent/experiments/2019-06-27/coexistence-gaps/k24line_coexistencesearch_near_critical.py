@@ -8,37 +8,46 @@ from readparams import ReadParams
 
 Etol = 1e-8
 
+def gamma_guess(k24):
+
+    a = 0.01951639
+    b = -1.53152877
+
+    g0 = a*(k24-b)
+
+    return g0-1e-5,g0-5e-6
+
 def single_E_calc(gamma,scan,loadsuf,savesuf,scan_dir):
 
     scan['\\gamma_s'] = str(gamma)
 
     if scan_dir == "scanforward":
 
-        Rguess0 = 0.187
-        Rupper0 = 0.195
-        Rlower0 = 0.185
+        Rguess0 = 0.175
+        Rupper0 = 0.18
+        Rlower0 = 0.16
 
         etaguess0 = 6.292
         etalower0 = 6.291
-        etaupper0 = 6.294
+        etaupper0 = 6.3
 
         deltaguess0 = 0.811
-        deltalower0 = 0.8109
-        deltaupper0 = 0.8117
+        deltalower0 = 0.808
+        deltaupper0 = 0.812
 
     else:
 
-        Rguess0 = 0.22
-        Rupper0 = 0.225
-        Rlower0 = 0.212
+        Rguess0 = 0.25
+        Rupper0 = 0.26
+        Rlower0 = 0.24
 
         etaguess0 = 6.294
         etalower0 = 6.293
-        etaupper0 = 6.295
+        etaupper0 = 6.31
 
-        deltaguess0 = 0.8118
-        deltalower0 = 0.811
-        deltaupper0 = 0.813
+        deltaguess0 = 0.812
+        deltalower0 = 0.810
+        deltaupper0 = 0.814
 
 
     scan['Rguess'] = str(Rguess0)
@@ -100,6 +109,8 @@ if __name__ == "__main__":
     gamma0 = float(sys.argv[2])
 
     gamma2 = float(sys.argv[3])
+
+    #gamma0,gamma2 = gamma_guess(k24)
 
     dg = 0.00005
 
