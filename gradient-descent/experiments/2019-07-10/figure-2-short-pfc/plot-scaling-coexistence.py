@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     k24s = obsfwd.data[:,0]
 
-    ts = (k24s-k24s[0])/k24s[0]
+    ts = (k24s-0.255)/0.255
 
     print(ts)
 

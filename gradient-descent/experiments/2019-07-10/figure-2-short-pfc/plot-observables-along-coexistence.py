@@ -58,11 +58,17 @@ if __name__ == "__main__":
     loadsuf=["K_{33}","\\Lambda","\\omega"]
     savesuf=["K_{33}","\\Lambda","\\omega"]
 
+    data_path = "../../2019-06-27/coexistence-gaps"
 
-    obsfwd = ObservableData(name="fw_coexist",loadfilepath="results",scan=scan,
-                            loadsuf=loadsuf,savesuf=savesuf)
-    obsbwd = ObservableData(name="bw_coexist",loadfilepath="results",scan=scan,
-                            loadsuf=loadsuf,savesuf=savesuf)
+    loadfilepath = data_path + "/results"
+
+    datfile = data_path + "/data/input.dat"
+
+
+    obsfwd = ObservableData(name="fw_coexist",loadfilepath=loadfilepath,scan=scan,
+                            loadsuf=loadsuf,savesuf=savesuf,datfile=datfile)
+    obsbwd = ObservableData(name="bw_coexist",loadfilepath=loadfilepath,scan=scan,
+                            loadsuf=loadsuf,savesuf=savesuf,datfile=datfile)
 
     observables_list = ["gamma","E","R","eta","delta","psi(R)"]
 
