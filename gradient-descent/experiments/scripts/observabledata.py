@@ -62,7 +62,7 @@ class ObservableData(ReadParams):
         if isinstance(self.xaxis,list):
             vlength = len(self.xaxis)
         elif self.xaxis == None:
-            vlength=0
+            vlength=observables_num-5
         else:
             vlength = 1
 

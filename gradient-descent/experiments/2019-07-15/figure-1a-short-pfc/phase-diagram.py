@@ -7,13 +7,11 @@ from fig_settings import configure_fig_settings
 sys.path.append('../../scripts/')
 from observabledata import ObservableData
 from psidata import PsiData
-from fibrilstrain import FibrilStrain
 from phasediagram import PhaseDiagram
 import seaborn as sns
 from matplotlib import cm
 from matplotlib.colors import ListedColormap
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-from midpointnormalize import MidpointNormalize
 
 
 
@@ -101,77 +99,7 @@ if __name__ == "__main__":
     fig.subplots_adjust(left=0.2,bottom=0.2)
 
 
-    ##### now do the inset ####
 
-
-    loadsuf=["K_{33}","k_{24}","\\Lambda","\\omega","\\gamma_s"]
-    savesuf = loadsuf
-
-    scan['k_{24}'] = '0.5'
-    scan['\\gamma_s'] = '0.04'
-
-    markertypes=['--','-.']
-
-    q = 4/1000 # nm^{-1}
-
-    data_path = "../../2019-04-29/psivsr-K33is30-tendon"
-
-    loadfilepath = data_path + "/data"
-
-    datfile = data_path + "/data/input.dat"
-
-    types = ['linear','frustrated']
-
-    for i,type in enumerate(types):
-
-        if i == 0:
-
-            axins = inset_axes(ax,width=width/5,height=height/5,loc=1,
-                               bbox_to_anchor=(0.0,0.0,1,1),
-                               bbox_transform=ax.transAxes)
-
-        else:
-
-            axins = inset_axes(ax,width=width/3,height=height/3,loc=4,
-                               bbox_to_anchor=(0.1,0.1,1,1),
-                               bbox_transform=ax.transAxes)
-
-        psistuff = PsiData(scan=scan,loadsuf=loadsuf,savesuf=savesuf,name=f"psivsr_{type}",
-                           loadfilepath=loadfilepath,datfile=datfile,sfile_format="pdf")
-
-        observablestuff = ObservableData(scan=scan,loadsuf=loadsuf,savesuf=loadsuf,
-                                         name=f"{type}observables",loadfilepath=loadfilepath,
-                                         datfile=datfile)
-
-        R = observablestuff.R()
-
-
-
-        fibrilstrain = FibrilStrain(psistuff,observablestuff,sfile_format='pdf')
-
-        rs,thetas = fibrilstrain.mesh_polar(grid_skip=4)
-
-        strains = fibrilstrain.strain_polar(rs,grid_skip=8)
-
-        norm = MidpointNormalize(midpoint=0)
-
-        im = axins.contourf(thetas,rs,strains,100,norm=norm,
-                                 cmap='bwr')
-
-
-
-        axins.set_xticks([])
-        axins.set_yticks([])
-
-
-        #axins.annotate(rf'$R={R:1.3f}$',xy=(5*np.pi/4,R-0.01*R),
-        #                    xytext=(5*np.pi/4,R+R-0.01*R),fontsize=20,
-        #                    color=colors[i])
-
-
-
-
-    plt.show()
     fig.savefig(obsfwd.observable_sname(f"phase-diagram"))
 
 

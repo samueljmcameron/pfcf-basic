@@ -7,11 +7,13 @@ from fig_settings import configure_fig_settings
 sys.path.append('../../scripts/')
 from observabledata import ObservableData
 from psidata import PsiData
+from fibrilstrain import FibrilStrain
 from phasediagram import PhaseDiagram
 import seaborn as sns
-from matplotlib import cm
-from matplotlib.colors import ListedColormap
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from midpointnormalize import MidpointNormalize
+from mpl_toolkits.axes_grid1.colorbar import colorbar
+from matplotlib.ticker import Formatter
 
 
 
@@ -23,7 +25,7 @@ if __name__ == "__main__":
     omega = 20.0
     K33 = 30
 
-    width=3.37
+    width=2.5
     height=width
 
     configure_fig_settings()
@@ -73,7 +75,6 @@ if __name__ == "__main__":
 
     zz = pd.zz_array()
 
-    print(zz.min())
 
     ax.pcolormesh(xs,ys,zz,cmap=cmap)
 
@@ -85,21 +86,22 @@ if __name__ == "__main__":
             markersize=8)
 
 
-    ax.text(0.01,0.8,'linear\ntwist',color='k',fontsize=12)
-    ax.text(0.065,0.8,'constant\ntwist',color='k',fontsize=12)
+    ax.text(0.01,0.75,'linear\ntwist',color='k',fontsize=10)
+    ax.text(0.063,0.75,'constant\ntwist',color='k',fontsize=10)
 
-    ax.text(0.025,0.15,r'$(\gamma^c,k_{24}^c)$',fontsize=12)
+    ax.text(0.02,0.1,r'$(\gamma^c,k_{24}^c)$',fontsize=12)
 
     ax.set_xlabel(rf"$\gamma$",fontsize=10)
     ax.set_ylabel(r"$k_{24}$",fontsize=10)
+    ax.set_xticks([0.02,0.04,0.06,0.08,0.1])
 
 
 
-    ax.legend(frameon=False,fontsize=10)
-    fig.subplots_adjust(left=0.2,bottom=0.2)
+
 
 
     ##### now do the inset ####
+
 
 
     loadsuf=["K_{33}","k_{24}","\\Lambda","\\omega","\\gamma_s"]
@@ -112,42 +114,75 @@ if __name__ == "__main__":
 
     q = 4/1000 # nm^{-1}
 
+    norm = MidpointNormalize(midpoint=0)
+
     data_path = "../../2019-04-29/psivsr-K33is30-tendon"
 
     loadfilepath = data_path + "/data"
 
     datfile = data_path + "/data/input.dat"
 
-    axins = inset_axes(ax,width=width/3,height=height/3,loc=4,
-                       bbox_to_anchor=(0.1,0.1,1,1),bbox_transform=ax.transAxes)
-
     types = ['linear','frustrated']
 
+    axins = {}
+
+    axins['linear'] = fig.add_axes([0.25,0.5,0.1,0.1],projection='polar')
+
+    axins['frustrated'] = fig.add_axes([0.5,0.35,0.25,0.25],projection='polar')
+
     for i,type in enumerate(types):
+
 
         psistuff = PsiData(scan=scan,loadsuf=loadsuf,savesuf=savesuf,name=f"psivsr_{type}",
                            loadfilepath=loadfilepath,datfile=datfile,sfile_format="pdf")
 
-        rs = psistuff.r()/q
-        psis = psistuff.psi()
+        observablestuff = ObservableData(scan=scan,loadsuf=loadsuf,savesuf=loadsuf,
+                                         name=f"observables_{type}",loadfilepath=loadfilepath,
+                                         datfile=datfile)
 
-        axins.plot(rs,psis,markertypes[i],label=f'{type} twist',lw=2)
+        R = observablestuff.R()
 
-        print("Radius = ",rs[-1], " nm.")
-        
-        print("surface twist = ",psis[-1]," rad.")
 
-        axins.set_xlabel(r'$\tilde{r}$' + ' (' + r'$\si{\nano\meter}$' + ')',fontsize=8,labelpad=0.0)
-        axins.set_ylabel(r'$\psi(\tilde{r})$' + ' (' + r'$\si{\radian}$' + ')',fontsize=8)
-        axins.set_xlim(0,120)
-        axins.set_ylim(0,0.1)
 
-        axins.set_xticks([0,50,100])
-        axins.set_yticks([0,0.05,0.1])
-        axins.legend(frameon=False,fontsize=8)
+        fibrilstrain = FibrilStrain(psistuff,observablestuff,sfile_format='pdf')
 
+        rs,thetas = fibrilstrain.mesh_polar(grid_skip=4)
+
+        strains = fibrilstrain.strain_polar(rs,grid_skip=4)
+
+        strain_percents = strains*100 # turn into percentage
+
+        vmin,vmax = -0.3,0.1
+
+        im = axins[type].contourf(thetas,rs,strain_percents,100,norm=norm,
+                                 cmap='seismic',vmin=vmin,vmax=vmax)
+
+
+
+        axins[type].set_xticks([])
+        axins[type].set_yticks([])
+
+
+        #axins[type].annotate(rf'$R={R:1.3f}$',xy=(5*np.pi/4,R-0.01*R),
+        #                    xytext=(5*np.pi/4,R+R-0.01*R),fontsize=20,
+        #                    color=colors[i])
+
+
+    cax_ticks=[-0.3,-0.2,-0.1,0,0.1]
+
+    cax = inset_axes(ax,width = "5%",height="99%",
+                     loc='lower left',bbox_to_anchor=(1,0,1,1),
+                     bbox_transform=ax.transAxes,borderpad=0.12)
+
+    cbar = colorbar(im,ax=ax,cax=cax,format='%.1f',ticks=cax_ticks)
+
+    cax.set_title("strain (\%)",fontsize=8)
+
+
+    
+    fig.subplots_adjust(left=0.2,right=0.8,bottom=0.2,top=0.8)
     plt.show()
-    fig.savefig(obsfwd.observable_sname(f"phase-diagram"))
+    fig.savefig(obsfwd.observable_sname(f"phase-diagram-with-axial-strain"))
 
 
 

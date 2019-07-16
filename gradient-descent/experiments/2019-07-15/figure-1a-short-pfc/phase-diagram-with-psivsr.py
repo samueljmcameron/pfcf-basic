@@ -147,7 +147,7 @@ if __name__ == "__main__":
         axins.legend(frameon=False,fontsize=8)
 
     plt.show()
-    fig.savefig(obsfwd.observable_sname(f"phase-diagram"))
+    fig.savefig(obsfwd.observable_sname(f"phase-diagram-with-psivsr"))
 
 
 
