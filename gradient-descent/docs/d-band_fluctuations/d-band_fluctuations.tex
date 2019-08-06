@@ -1,0 +1,131 @@
+\documentclass[12pt]{article}
+%\usepackage{helvet}
+%\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{fullpage}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{gensymb}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{braket}
+\usepackage{titlesec}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage[font={small}]{caption}
+\usepackage{subcaption}
+\usepackage[inline]{enumitem}
+%\titlespacing*{\section}{0pt}{4pt}{4pt}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{verbatim}
+
+
+\begin{document}
+\pagenumbering{arabic}
+\spacing{1.5}
+
+%%%%%%%%%%%
+% Begin Document
+%%%%%%%%%%%
+
+\section{D-band period change with twist.}
+The free energy of the PFC fibril model is
+\begin{align}\label{eq:finalE}
+E(R,\eta,\delta;\psi(r))&=\frac{2}{R^2}\int_0^{R}rdr\left(\frac{1}{2}\left(1-\psi'-\frac{\sin2\psi}{2r}\right)^2+\frac{1}{2}K_{33}\frac{\sin^4\psi}{r^2}\right)\nonumber\\
+&\phantom{=}+\frac{\Lambda\delta^2}{2R^2}\int_0^Rrdr\left(4\pi^2-\eta^2\cos^2\psi(r)\right)^2\nonumber\\
+&\phantom{=}+\frac{\omega\delta^2}{2}\left(\frac{3}{4}\delta^2-1\right)-(1+k_{24})\frac{\sin^2\psi(R)}{R^2}+\frac{2\gamma}{R}.
+\end{align}
+
+If I assume $R=R_{\mathrm{eq}}$ and $\delta=\delta_{\mathrm{eq}}$ to be fixed, and additionally make the assumption that $\psi(r)$ is not dependent on $\eta$, then I can minimize the free energy with respect to $\eta$, i.e.
+\begin{align}
+\frac{\partial E}{\partial\eta} &= \frac{\Lambda\delta_{\mathrm{eq}}^2}{4}\frac{\partial}{\partial\eta}\bigg((2\pi)^4-2(2\pi)^2\eta^2c_2+\eta^4c_4\bigg)\nonumber\\
+&=\frac{\Lambda\delta_{\mathrm{eq}}^2}{4}\bigg(-4(2\pi)^2\eta c_2+4\eta^3c_4\bigg)\nonumber\\
+&=0
+\end{align}
+where
+\begin{align}
+c_2 &= \frac{2}{R_{\mathrm{eq}}^2}\int_0^{R_{\mathrm{eq}}}rdr\cos^2\psi(r)\\
+c_4 &=\frac{2}{R_{\mathrm{eq}}^2}\int_0^{R_{\mathrm{eq}}}rdr\cos^4\psi(r).
+\end{align}
+This gives
+\begin{align}
+\eta_{\mathrm{eq}}=2\pi\sqrt{\frac{c_2}{c_4}}
+\end{align}
+or with $\eta = 2\pi/d$ and d being the d-band spacing 
+\begin{align}
+\frac{d_{\mathrm{eq}}}{d_{\parallel}}=\sqrt{\frac{c_4}{c_2}},
+\end{align}
+where $d_{\parallel}=1/(2\pi)$ in dimensionless form.
+
+\section{D-band fluctuations with twist (per molecule number density).}
+The fluctuations of the d-band with the same assumptions as above should have a Boltzmann distribution about the equilibrium d-band value. If I define $u=(d-d_{\mathrm{eq}})/d_{\mathrm{eq}}$ as the deviation of the local d-band from its global average, then the distribution becomes (for $u\ll 1$)
+\begin{align}
+P(u)&=P_0\exp\bigg(-\frac{\tilde{Y}\pi\tilde{R}_{\mathrm{eq}}^2(2\pi/\tilde{\eta}_{\mathrm{eq}})u^2}{2\tilde{k}_B\tilde{T}}\bigg)\nonumber\\
+&=P_0\exp\bigg(-\frac{\tilde{Y}2\pi^2\tilde{R}_{\mathrm{eq}}^2u^2}{2\tilde{k}_B\tilde{T}\tilde{\eta}_{\mathrm{eq}}}\bigg)
+\end{align}
+where tildes indicate dimensional variables and $\tilde{k}_B\tilde{T}\sim\SI{4.114e-3}{\pico\newton\micro\meter}$ is (room) temperature. The elastic modulus is (for small strains, $u\ll 1$),
+\begin{align}
+\frac{\tilde{Y}}{\tilde{K}_{22}\tilde{q}^2}&=\frac{\partial^2E}{\partial u^2}\bigg|_{u=0}\nonumber\\
+&=\frac{\Lambda\delta_{\mathrm{eq}}^2}{4}\bigg(-2(2\pi)^2c_2\frac{\partial^2}{\partial u^2}\bigg(\frac{\eta_{\mathrm{eq}}}{1+u}\bigg)^2+c_4\frac{\partial^2}{\partial u^2}\bigg(\frac{\eta_{\mathrm{eq}}}{1+u}\bigg)^4\bigg)\bigg|_{u=0}\nonumber\\
+&=\frac{\Lambda\delta_{\mathrm{eq}}^2}{4}\bigg(-2(2\pi)^2c_2\eta_{\mathrm{eq}}^2\frac{(-2)(-3)}{(1+u)^4}+c_4\eta_{\mathrm{eq}}^4\frac{(-4)(-5)}{(1+u)^6}\bigg)\bigg|_{u=0}\nonumber\\
+&=\Lambda\delta_{\mathrm{eq}}^2(2\pi)^4\bigg(c_2\bigg(\frac{c_2}{c_4}\bigg)\frac{(-3)}{(1+u)^4}-c_4\bigg(\frac{c_2}{c_4}\bigg)^2\frac{(-5)}{(1+u)^6}\bigg)\bigg|_{u=0}\nonumber\\
+&=2\Lambda\delta_{\mathrm{eq}}^2(2\pi)^4\frac{c_2^2}{c_4}.
+\end{align}
+
+Therefore, the fractional deviation of the D-band from its equilibrium length is
+\begin{align}\label{eq:sigma}
+\sigma&=\sqrt{\frac{\tilde{k}_B\tilde{T}\tilde{\eta}_{\mathrm{eq}}}{2\pi^2\tilde{R}_{\mathrm{eq}}^2}\tilde{Y}}\nonumber\\
+&=\sqrt{\frac{\tilde{k}_B\tilde{T}}{\pi\tilde{R}_{\mathrm{eq}}^2\tilde{d_{\mathrm{eq}}}(2\Lambda\delta_{\mathrm{eq}}^2(2\pi)^4c_2^2/c_4\tilde{K}_{22}\tilde{q}^2)}}\nonumber\\
+&=\sqrt{\frac{\tilde{k}_B\tilde{T}}{32\pi^5\tilde{R}_{\mathrm{eq}}^2\tilde{d_{\parallel}}\Lambda\delta_{\mathrm{eq}}^2\tilde{K}_{22}\tilde{q}^2}}\sqrt{\sqrt{\frac{c_2}{c_4}}\frac{c_4}{c_2^2}}\nonumber\\
+&=\sqrt{\frac{\tilde{k}_B\tilde{T}}{32\pi^5\tilde{R}_{\mathrm{eq}}^2\tilde{d_{\parallel}}\Lambda\delta_{\mathrm{eq}}^2\tilde{K}_{22}\tilde{q}^2}}\bigg(\frac{c_4}{c_2^3}\bigg)^{\frac{1}{4}}.
+\end{align}
+
+If I insert $\Lambda=2\tilde{\Lambda}\tilde{\delta}_0^2/(3\tilde{K}_{22}\tilde{q}^2\tilde{d}_{\parallel}^4)$, and $\delta_{\mathrm{eq}}=\sqrt{3/2}\tilde{\delta}_{\mathrm{eq}}/\tilde{\delta_0}$, then I get
+\begin{align}
+\sigma=\sqrt{\frac{\tilde{k}_B\tilde{T}\tilde{d}_{\parallel}^3}{32\pi^5\tilde{R}_{\mathrm{eq}}^2\tilde{\Lambda}\tilde{\delta}_{\mathrm{eq}}^2}}\bigg(\frac{c_4}{c_2^3}\bigg)^{\frac{1}{4}}
+\end{align}
+which agrees with Andrew's calculation. However, eqn \ref{eq:sigma} is slightly easier to deal with, so I'll use that.
+
+Inserting $\Lambda=600$, $\tilde{k}_B\tilde{T}=\SI{4.114e-3}{\pico\newton\micro\meter}$, $\tilde{K}_{22}=\SI{6}{\pico\newton\per\micro\meter}$, and $\tilde{q}=\SI{4}{\per\micro\meter}$, this becomes
+\begin{align}
+\sigma=\SI{2.7e-6}{\micro\meter^{3/2}}\times\sqrt{\frac{1}{\tilde{R}_{\mathrm{eq}}^2\delta_{\mathrm{eq}}^2}}\bigg(\frac{c_4}{c_2^3}\bigg)^{\frac{1}{4}}.
+\end{align}
+
+Now, for the linear twist phase, $\tilde{R}_L\approx\SI{0.027}{\micro\meter}$, $\delta_L\approx0.98$, $c_{2,L}\approx0.99749$, and $c_{4,L}\approx0.99499$. For the constant twist phase, $\tilde{R}_C\approx\SI{0.106}{\micro\meter}$, $\delta_C\approx1$, $c_{2,C}\approx0.99312$, and $c_{4,C}\approx0.98628$. This gives the fractional widths
+\begin{align}
+\sigma_L\approx\num{1.02e-4},\nonumber\\
+\sigma_C\approx\num{2.55e-4}.
+\end{align}
+
+
+\section{D-band fluctuations with twist (using number density of molecules in Boltzmann factor).}
+The only difference between this calculation and the previous sections is the form of the probability distribution. This section's distribution will be defined by
+\begin{align}
+P(u)=P_0\exp\bigg(-\frac{\tilde{Y}u^2}{2\tilde{k}_B\tilde{T}\tilde{\rho}_0}\bigg)
+\end{align}
+where $\tilde{k}_B\tilde{T}\sim\SI{4.114e-3}{\pico\newton\micro\meter}$ is again (room) temperature, and $\tilde{\rho}_0=\SI{1.67e6}{\per\micro\meter\cubed}$ is the average number density of the collagen fibril. The calculation of $\tilde{Y}$ from the previous section still applies.
+
+Therefore, the width of the strains is
+\begin{align}
+\sigma&=\sqrt{\frac{\tilde{k}_B\tilde{T}\tilde{\rho}_0}{\tilde{Y}}}\nonumber\\
+&=\sqrt{\frac{\tilde{k}_B\tilde{T}\tilde{\rho}_0}{32\pi^4\tilde{K}_{22}\tilde{q}^2\Lambda\delta_{\mathrm{eq}}}\frac{c_2^2}{c_4}}.
+\end{align}
+Inserting the values of $\tilde{K}_{22}=\SI{6}{\pico\newton}$, $\tilde{q}=\SI{4}{\per\micro\meter}$, $\Lambda=600$, $\delta_{\mathrm{eq}}\approx1$, I get
+\begin{align}
+\sigma=\num{6.186e-3}\frac{c_2}{\sqrt{c_4}}.
+\end{align}
+
+At coexistence, the linear twist fibril for this parameter set has $c_2=0.99749$, $c_4=0.99499$. The constant twist fibril has $c_2=0.99312$ and $c_4=0.98628$. Therefore, the values of $\sigma$ are
+\begin{align}
+\sigma_L=\num{6.186e-3},\\
+\sigma_C=\num{6.186e-3}
+\end{align}
+for linear and constant twist fibrils, respectively.
+
+
+\end{document}
