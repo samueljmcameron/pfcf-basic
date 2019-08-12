@@ -86,8 +86,8 @@ if __name__ == "__main__":
             markersize=8)
 
 
-    ax.text(0.01,0.75,'linear\ntwist',color='k',fontsize=10)
-    ax.text(0.063,0.75,'constant\ntwist',color='k',fontsize=10)
+    ax.text(0.01,0.75,'linear\ntwist (L)',color='k',fontsize=10)
+    ax.text(0.063,0.75,'constant\ntwist (C)',color='k',fontsize=10)
 
     ax.text(0.02,0.1,r'$(\gamma^c,k_{24}^c)$',fontsize=12)
 
@@ -95,7 +95,7 @@ if __name__ == "__main__":
     ax.set_ylabel(r"$k_{24}$",fontsize=10)
     ax.set_xticks([0.02,0.04,0.06,0.08,0.1])
 
-
+    ax.annotate("(a)",xy=(-0.3,1.1),xycoords="axes fraction")
 
 
 
@@ -126,9 +126,9 @@ if __name__ == "__main__":
 
     axins = {}
 
-    axins['linear'] = fig.add_axes([0.25,0.5,0.1,0.1],projection='polar')
+    axins['linear'] = fig.add_axes([0.25,0.45,0.1,0.1],projection='polar')
 
-    axins['frustrated'] = fig.add_axes([0.5,0.35,0.25,0.25],projection='polar')
+    axins['frustrated'] = fig.add_axes([0.5,0.37,0.25,0.25],projection='polar')
 
     for i,type in enumerate(types):
 

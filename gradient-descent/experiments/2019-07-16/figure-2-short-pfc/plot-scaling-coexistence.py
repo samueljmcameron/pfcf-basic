@@ -18,8 +18,8 @@ if __name__ == "__main__":
     omega = 20.0
     K33 = 30
 
-    width=3.37
-    height=width
+    width=2.8
+    height=2.5
 
     configure_fig_settings()
 
@@ -92,15 +92,16 @@ if __name__ == "__main__":
     linearlab = rf"{ylabel}_L^*"
     frustlab = rf"{ylabel}_C^*"
 
-    ax.set_ylabel(rf"${frustlab}-{linearlab}$",fontsize=10)
+    ax.set_ylabel(rf"${frustlab}-{linearlab}$",fontsize=10,labelpad=2)
     ax.set_xlabel(r"$t$",fontsize=10)
+    ax.set_ylim(top=5)
 
     fig.subplots_adjust(left=0.2,bottom=0.2)
 
 
     # now set inset
 
-    axins = fig.add_axes([0.35,0.65,0.3,0.2])
+    axins = fig.add_axes([0.36,0.61,0.32,0.25])
 
     axins.plot(ts,Rfrust,'>',color=colors[1],label=rf"${frustlab}$",markersize=2)
     axins.plot(ts,Rlin,'s',color=colors[0],label=rf"${linearlab}$",markersize=2)

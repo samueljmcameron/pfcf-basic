@@ -69,11 +69,11 @@ if __name__ == "__main__":
         psis = psistuff.psi()
 
         if type == 'frustrated':
-            label= 'constant'
+            label= 'C'
         else:
-            label=type
+            label='L'
 
-        ax.plot(rs,psis,markertypes[i],label=f'{label} twist',lw=2)
+        ax.plot(rs,psis,markertypes[i],label=f'{label}',lw=2)
 
         print("Radius = ",rs[-1], " nm.")
         
@@ -89,6 +89,7 @@ if __name__ == "__main__":
     ax.yaxis.set_minor_locator(AutoMinorLocator())
     ax.legend(frameon=False,loc='lower right',fontsize=10)
     ax.tick_params(which='minor',length=2)
+    ax.annotate("(b)",xy=(-0.3,1.1),xycoords="axes fraction")
     fig.subplots_adjust(left=0.23,right=0.83,bottom=0.2,top=0.8)
     plt.show()
 

@@ -13,8 +13,8 @@ if __name__=="__main__":
 
     configure_fig_settings()
 
-    width  = 3.37
-    height = width*1.5
+    width  = 3.1
+    height = 4.3
 
     colors = sns.color_palette()
 
@@ -85,6 +85,7 @@ if __name__=="__main__":
             print("bad calculation at Lambda = ",Lambda)
 
 
+        axis_labels = ["(a)","(b)","(c)"]
 
         for j,observable in enumerate(observable_list):
 
@@ -107,8 +108,14 @@ if __name__=="__main__":
             xs = xs[:minindex]
             ys = ys[:minindex]
 
+            if type == "linear":
+                label = "L"
+            else:
+                label = "C"
+
             ax[observable].plot(xs,ys,markertypes[i],color=colors[i],
-                                label=f"{types[i]} twist",lw=2)
+                                label=label,lw=2)
+            ax[observable].annotate(axis_labels[j],xy=(-0.43,0.95),xycoords="axes fraction")
 
             if observable == "stress":
                 Y = np.gradient(ys,xs/100)
@@ -134,7 +141,7 @@ if __name__=="__main__":
             ax[observable].set_xlabel(r"$\epsilon\times100\%$",fontsize = 10)
             ax[observable].set_xlim(left=0)
 
-    fig.subplots_adjust(left=0.2,right=0.8,bottom=0.1,top=0.95,hspace=0.05)
+    fig.subplots_adjust(left=0.27,right=0.85,bottom=0.1,top=0.95,hspace=0.07)
     fig.savefig(obsfwd.observable_sname("psiavg_etc-vsstrain",plot_format="pdf"))
 
     plt.show()
