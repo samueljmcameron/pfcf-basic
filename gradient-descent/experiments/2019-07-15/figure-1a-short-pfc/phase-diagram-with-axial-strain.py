@@ -161,6 +161,8 @@ if __name__ == "__main__":
 
         axins[type].set_xticks([])
         axins[type].set_yticks([])
+        axins[type].spines['polar'].set_linewidth(0.2)
+        axins[type].spines['polar'].set_linestyle((0,(2,8)))
 
 
         #axins[type].annotate(rf'$R={R:1.3f}$',xy=(5*np.pi/4,R-0.01*R),
@@ -181,7 +183,7 @@ if __name__ == "__main__":
 
     
     fig.subplots_adjust(left=0.2,right=0.8,bottom=0.2,top=0.8)
-    plt.show()
+    #plt.show()
     fig.savefig(obsfwd.observable_sname(f"phase-diagram-with-axial-strain"))
 
 
